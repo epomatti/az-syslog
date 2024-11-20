@@ -117,5 +117,13 @@ sudo systemctl restart rsyslog
 sudo systemctl status rsyslog
 ```
 
+## Testing
+
+Check the log directory:
+
+```sh
+ls /var/log
+```
+
 
 [1]: https://youtu.be/mBJ8JfJnlXQ
