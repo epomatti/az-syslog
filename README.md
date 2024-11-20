@@ -28,7 +28,7 @@ terraform apply -auto-approve
 
 ## Syslog
 
-> [!NOTE]
+> [!TIP]
 > Most of the configuration used from [this video][1].
 
 ### Server
