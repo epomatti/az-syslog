@@ -42,7 +42,7 @@ resource "azurerm_linux_virtual_machine" "default" {
   }
 
   os_disk {
-    name                 = "osdisk-linux-${var.workload}"
+    name                 = "osdisk-linux-${var.workload}-${var.instance_name}"
     caching              = "ReadOnly"
     storage_account_type = "StandardSSD_LRS"
   }
