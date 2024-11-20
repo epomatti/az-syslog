@@ -6,5 +6,7 @@ export DEBIAN_FRONTEND=noninteractive
 apt update
 apt upgrade -y
 
+apt install net-tools -y
+
 
 reboot

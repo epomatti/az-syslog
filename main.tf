@@ -29,7 +29,7 @@ module "vnet" {
   location            = azurerm_resource_group.default.location
 }
 
-module "vm_syslog" {
+module "vm_syslog_server" {
   source              = "./modules/vm"
   workload            = local.workload
   resource_group_name = azurerm_resource_group.default.name
@@ -40,7 +40,7 @@ module "vm_syslog" {
   username        = var.vm_username
   public_key_path = var.vm_public_key_path
 
-  user_data_file_name = "ubuntu_syslog.sh"
+  user_data_file_name = "ubuntu_syslog_server.sh"
 
   image_publisher = var.vm_image_publisher
   image_offer     = var.vm_image_offer
@@ -48,12 +48,41 @@ module "vm_syslog" {
   image_version   = var.vm_image_version
 }
 
-module "nsg_syslog" {
-  source                          = "./modules/network/nsg-syslog"
+module "nsg_syslog_server" {
+  source                          = "./modules/network/nsg-syslog-server"
   workload                        = local.workload
   resource_group_name             = azurerm_resource_group.default.name
   location                        = azurerm_resource_group.default.location
   compute_subnet_id               = module.vnet.compute_subnet_id
   allowed_source_address_prefixes = var.allowed_source_address_prefixes
-  syslog_network_interface_id     = module.vm_syslog.network_interface_id
+  syslog_network_interface_id     = module.vm_syslog_server.network_interface_id
+}
+
+module "vm_syslog_client" {
+  source              = "./modules/vm"
+  workload            = local.workload
+  resource_group_name = azurerm_resource_group.default.name
+  location            = azurerm_resource_group.default.location
+
+  subnet_id       = module.vnet.compute_subnet_id
+  size            = var.vm_size
+  username        = var.vm_username
+  public_key_path = var.vm_public_key_path
+
+  user_data_file_name = "ubuntu_syslog_client.sh"
+
+  image_publisher = var.vm_image_publisher
+  image_offer     = var.vm_image_offer
+  image_sku       = var.vm_image_sku
+  image_version   = var.vm_image_version
+}
+
+module "nsg_syslog_client" {
+  source                          = "./modules/network/nsg-syslog-client"
+  workload                        = local.workload
+  resource_group_name             = azurerm_resource_group.default.name
+  location                        = azurerm_resource_group.default.location
+  compute_subnet_id               = module.vnet.compute_subnet_id
+  allowed_source_address_prefixes = var.allowed_source_address_prefixes
+  syslog_network_interface_id     = module.vm_syslog_client.network_interface_id
 }
