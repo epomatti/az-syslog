@@ -45,3 +45,7 @@ variable "image_version" {
 variable "user_data_file_name" {
   type = string
 }
+
+variable "instance_name" {
+  type = string
+}

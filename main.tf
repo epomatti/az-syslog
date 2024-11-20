@@ -40,6 +40,7 @@ module "vm_syslog_server" {
   username        = var.vm_username
   public_key_path = var.vm_public_key_path
 
+  instance_name       = "client"
   user_data_file_name = "ubuntu_syslog_server.sh"
 
   image_publisher = var.vm_image_publisher
@@ -69,6 +70,7 @@ module "vm_syslog_client" {
   username        = var.vm_username
   public_key_path = var.vm_public_key_path
 
+  instance_name       = "client"
   user_data_file_name = "ubuntu_syslog_client.sh"
 
   image_publisher = var.vm_image_publisher
